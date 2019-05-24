@@ -1,9 +1,17 @@
 import React, { Component } from 'react'
-import HelloWorld from './components/HelloWorld'
+import Header from './components/Header'
+import Minesweeper from './components/Minesweeper'
 
 class App extends Component {
   render() {
-    return <HelloWorld />
+    return (
+      <div>
+        <Header />
+        <section className="board">
+          <Minesweeper />
+        </section>
+      </div>
+    )
   }
 }
 
