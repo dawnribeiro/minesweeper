@@ -31,9 +31,13 @@ class Minesweeper extends Component {
         <tbody>
           {this.state.board.map((row, i) => {
             return (
-              <tr>
+              <tr className="row">
                 {row.map((column, j) => {
-                  return <td>{j}</td>
+                  return (
+                    <td className="column" key={j}>
+                      {this.state.board[i][j]}
+                    </td>
+                  )
                 })}
               </tr>
             )
