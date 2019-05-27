@@ -7,7 +7,7 @@ class App extends Component {
     return (
       <div>
         <Header />
-        <section className="">
+        <section className="board">
           <Minesweeper />
         </section>
       </div>
