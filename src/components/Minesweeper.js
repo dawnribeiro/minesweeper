@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 class Minesweeper extends Component {
   state = {
-    board: []
+    game: { board: [] }
   }
 
   componentDidMount() {
@@ -19,24 +19,48 @@ class Minesweeper extends Component {
       .then(game => {
         console.log({ game })
         this.setState({
-          board: game.board
+          game
         })
-        console.log(game.board)
+        console.log(game)
+      })
+  }
+
+  gridClick = (row, column) => {
+    console.log('clicked', row, column)
+    fetch(
+      `https://minesweeper-api.herokuapp.com/games/${this.state.game.id}/check`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ row: row, column: column })
+      }
+    )
+      .then(resp => {
+        return resp.json()
+      })
+      .then(updatedGame => {
+        this.setState({ game: updatedGame })
       })
   }
 
   render() {
     return (
-      <div className="game-container">
+      <div>
         <table>
           <tbody>
-            {this.state.board.map((row, i) => {
+            {this.state.game.board.map((row, i) => {
               return (
                 <tr className="row" key={i}>
                   {row.map((column, j) => {
                     return (
-                      <td className="column" key={j}>
-                        {this.state.board[i][j]}
+                      <td
+                        className="column"
+                        onClick={() => this.gridClick(i, j)}
+                        key={j}
+                      >
+                        {this.state.game.board[i][j]}
                       </td>
                     )
                   })}
