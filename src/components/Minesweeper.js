@@ -25,8 +25,8 @@ class Minesweeper extends Component {
       })
   }
 
-  gridClick = (row, column) => {
-    console.log('clicked', row, column)
+  gridClick = (row, col) => {
+    console.log('clicked', { row, col })
     fetch(
       `https://minesweeper-api.herokuapp.com/games/${this.state.game.id}/check`,
       {
@@ -34,7 +34,7 @@ class Minesweeper extends Component {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ row: row, column: column })
+        body: JSON.stringify({ row: row, col: col })
       }
     )
       .then(resp => {
@@ -54,7 +54,7 @@ class Minesweeper extends Component {
             {this.state.game.board.map((row, i) => {
               return (
                 <tr className="row" key={i}>
-                  {row.map((column, j) => {
+                  {row.map((col, j) => {
                     return (
                       <td
                         key={j}
