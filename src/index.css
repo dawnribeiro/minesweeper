@@ -13,6 +13,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: purple;
 }
 
 .row {
@@ -30,4 +31,12 @@ body {
 
 .board {
   height: 100%;
+}
+
+.header {
+  text-align: center;
+}
+
+.message {
+  text-align: center;
 }

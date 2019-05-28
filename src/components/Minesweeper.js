@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import Cell from './Cell'
 
 class Minesweeper extends Component {
   state = {
-    game: { board: [] }
+    game: { board: [] },
+    message: ''
   }
 
   componentDidMount() {
@@ -40,9 +42,33 @@ class Minesweeper extends Component {
       .then(resp => {
         return resp.json()
       })
-      .then(updatedGame => {
-        this.setState({ game: updatedGame })
-        console.log({ game: updatedGame })
+      .then(updateGame => {
+        let message = ''
+        if (updateGame.state === 'lost') {
+          message = 'LOSER'
+        } else if (updateGame.state === 'won') {
+          message = 'WINNER'
+        }
+        this.setState({ game: updateGame, message })
+      })
+  }
+  rightClickEvent = (event, row, col) => {
+    event.preventDefault()
+    fetch(
+      `https://minesweeper-api.herokuapp.com/games/${this.state.game.id}/flag`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ row: row, col: col })
+      }
+    )
+      .then(resp => {
+        return resp.json()
+      })
+      .then(updateGame => {
+        this.setState({ game: updateGame })
       })
   }
 
@@ -60,8 +86,11 @@ class Minesweeper extends Component {
                         key={j}
                         className="column"
                         onClick={() => this.gridClick(i, j)}
+                        onContextMenu={event =>
+                          this.rightClickEvent(event, i, j)
+                        }
                       >
-                        {this.state.game.board[i][j]}
+                        <Cell value={this.state.game.board[i][j]} />
                       </td>
                     )
                   })}
@@ -70,6 +99,8 @@ class Minesweeper extends Component {
             })}
           </tbody>
         </table>
+        <h1 className="message">{this.state.message}</h1>
+        <div />
       </div>
     )
   }
