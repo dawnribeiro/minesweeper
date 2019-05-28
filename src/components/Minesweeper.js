@@ -42,6 +42,7 @@ class Minesweeper extends Component {
       })
       .then(updatedGame => {
         this.setState({ game: updatedGame })
+        console.log({ game: updatedGame })
       })
   }
 
@@ -56,9 +57,9 @@ class Minesweeper extends Component {
                   {row.map((column, j) => {
                     return (
                       <td
+                        key={j}
                         className="column"
                         onClick={() => this.gridClick(i, j)}
-                        key={j}
                       >
                         {this.state.game.board[i][j]}
                       </td>
