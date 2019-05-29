@@ -16,6 +16,13 @@ class Cell extends Component {
         </>
       )
     }
+    // else if (this.props.value === '_') {
+    //   rv = <div style={{ backgroundColor: `#015677`, height: `100%` }}> </div>
+    // }
+    // else if (this.props.value === 1) {
+    //   rv = <div style={{ backgroundColor: `#ffdc00`, height: `100%` , color: `black`}}> </div>
+    // }
+
     return rv
   }
 }
