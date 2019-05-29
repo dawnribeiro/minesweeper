@@ -27,6 +27,25 @@ class Minesweeper extends Component {
       })
   }
 
+  newGame = () => {
+    fetch('https://minesweeper-api.herokuapp.com/games', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ difficulty: 0 })
+    })
+      .then(resp => {
+        return resp.json()
+      })
+      .then(game => {
+        console.log({ game })
+        this.setState({
+          game
+        })
+        console.log(game)
+      })
+  }
   gridClick = (row, col) => {
     console.log('clicked', { row, col })
     fetch(
@@ -43,6 +62,11 @@ class Minesweeper extends Component {
         return resp.json()
       })
       .then(updateGame => {
+        // if (updateGame.state === 'won' || updateGame.state === 'lost') {
+        //   gridClick = (row, col) => {
+        //     !this.state.value
+        //   }
+        // }
         let message = ''
         if (updateGame.state === 'lost') {
           message = 'LOSER'
@@ -100,6 +124,9 @@ class Minesweeper extends Component {
           </tbody>
         </table>
         <h1 className="message">{this.state.message}</h1>
+        <button className="reset-button" onClick={() => this.newGame()}>
+          Reset Game
+        </button>
         <div />
       </div>
     )
